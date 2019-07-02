@@ -40,10 +40,15 @@
   },
   "homepage": "https://github.com/idiocc/type-is#readme",
   "devDependencies": {
+    "@goa/content-type": "^1.0.1",
+    "@goa/mime-types": "^1.1.0",
     "alamode": "^2.3.4",
     "documentary": "^1.27.4",
     "eslint-config-artdeco": "1.0.1",
     "yarn-s": "1.1.0",
     "zoroaster": "^4.1.1-alpha"
+  },
+  "dependencies": {
+    "mime-db": "^1.40.0"
   }
 }

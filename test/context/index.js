@@ -29,4 +29,12 @@ export default class Context {
   async _destroy() {
     LOG('destroy context')
   }
+  createRequest(type) {
+    return {
+      headers: {
+        'content-type': type || undefined,
+        'transfer-encoding': 'chunked',
+      },
+    }
+  }
 }
