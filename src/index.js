@@ -149,9 +149,7 @@ function normalize(type) {
 }
 
 /**
- * Check if `expected` mime type
- * matches `actual` mime type with
- * wildcard and +suffix support.
+ * Check if `expected` mime type matches `actual` mime type with wildcard and +suffix support.
  *
  * @param {string|boolean} expected
  * @param {string} actual

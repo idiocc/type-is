@@ -4,8 +4,10 @@
 
 ## Copyright
 
-(c) [Idio][1] 2019
+Original Work by [Jonathan Ong, Douglas Christopher Wilson and contributors](https://github.com/jshttp/type-is).
 
-[1]: https://idio.cc
+---
+
+<idio-footer />
 
 %~ -1%

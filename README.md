@@ -1,6 +1,6 @@
 # @goa/type-is
 
-[![npm version](https://badge.fury.io/js/@goa/type-is.svg)](https://npmjs.org/package/@goa/type-is)
+[![npm version](https://badge.fury.io/js/%40goa%2Ftype-is.svg)](https://npmjs.org/package/@goa/type-is)
 
 `@goa/type-is` is [fork] Infer the content-type of a request Written In ES6 And Optimised With JavaScript Compiler.
 
@@ -12,8 +12,7 @@ yarn add @goa/type-is
 
 - [Table Of Contents](#table-of-contents)
 - [API](#api)
-- [`typeIs(arg1: string, arg2?: boolean)`](#mynewpackagearg1-stringarg2-boolean-void)
-  * [`_@goa/type-is.Config`](#type-_@goa/type-isconfig)
+- [`typeis(request: http.IncomingMessage, types: string|Array<string>, ...types: string)`](#typeisrequest-httpincomingmessagetypes-stringarraystringtypes-string-void)
 - [Copyright](#copyright)
 
 <p align="center"><a href="#table-of-contents"><img src="/.documentary/section-breaks/0.svg?sanitize=true"></a></p>
@@ -23,43 +22,83 @@ yarn add @goa/type-is
 The package is available by importing its default function:
 
 ```js
-import typeIs from '@goa/type-is'
+import typeis, { hasBody, match } from '@goa/type-is'
 ```
 
 <p align="center"><a href="#table-of-contents"><img src="/.documentary/section-breaks/1.svg?sanitize=true"></a></p>
 
-## `typeIs(`<br/>&nbsp;&nbsp;`arg1: string,`<br/>&nbsp;&nbsp;`arg2?: boolean,`<br/>`): void`
+## `typeis(`<br/>&nbsp;&nbsp;`request: http.IncomingMessage,`<br/>&nbsp;&nbsp;`types: string|Array<string>,`<br/>&nbsp;&nbsp;`...types: string,`<br/>`): void`
 
-Call this function to get the result you want.
+Checks if the `request` is one of the types. If the request has no body, even if there is a _Content-Type_ header, then `null` is returned. If the _Content-Type_ header is invalid or does not matches any of the `types`, then `false` is returned. Otherwise, a string of the type that matched is returned.
 
-__<a name="type-_@goa/type-isconfig">`_@goa/type-is.Config`</a>__: Options for the program.
+The `request` argument is expected to be a Node.js HTTP request. The `types` argument is an array of type strings.
 
-|   Name    |       Type       |    Description    | Default |
-| --------- | ---------------- | ----------------- | ------- |
-| shouldRun | <em>boolean</em> | A boolean option. | `true`  |
-| __text*__ | <em>string</em>  | A text to return. | -       |
+Each `type` in the types array can be one of the following:
+
+- A file extension name such as `json`. This name will be returned if matched.
+- A mime type such as `application/json`.
+- A mime type with a wildcard such as `*/*` or `*/json` or `application/*`. The full mime type will be returned if matched.
+- A suffix such as `+json`. This can be combined with a wildcard such as `*/vnd+json` or `application/*+json`. The full mime type will be returned if matched.
+
 
 ```js
-/* alanode example/ */
-import typeIs from '@goa/type-is'
+import typeis from '@goa/type-is'
 
-(async () => {
-  const res = await typeIs({
-    text: 'example',
-  })
-  console.log(res)
-})()
+const req = {
+  headers: {
+    'content-length': 10,
+    'content-type': 'application/json',
+  },
+}
+
+console.log(typeis(req, ['json'])) // => 'json'
+console.log(typeis(req, ['html', 'json'])) // => 'json'
+console.log(typeis(req, ['application/*'])) // => 'application/json'
+console.log(typeis(req, ['application/json'])) // => 'application/json'
+
+// pass types as variable arguments
+console.log(typeis(req, 'text/html', 'application/json')) // => 'application/json'
+
+console.log(typeis(req, ['html'])) // => false
 ```
 ```
-example
+json
+json
+application/json
+application/json
+application/json
+false
 ```
 
 <p align="center"><a href="#table-of-contents"><img src="/.documentary/section-breaks/2.svg?sanitize=true"></a></p>
 
 ## Copyright
 
-(c) [Idio][1] 2019
+Original Work by [Jonathan Ong, Douglas Christopher Wilson and contributors](https://github.com/jshttp/type-is).
 
-[1]: https://idio.cc
+---
+
+<table>
+  <tr>
+    <th>
+      <a href="https://artd.eco">
+        <img src="https://raw.githubusercontent.com/wrote/wrote/master/images/artdeco.png" alt="Art Deco">
+      </a>
+    </th>
+    <th>© <a href="https://artd.eco">Art Deco</a> for <a href="https://idio.cc">Idio</a> 2019</th>
+    <th>
+      <a href="https://idio.cc">
+        <img src="https://avatars3.githubusercontent.com/u/40834161?s=100" width="100" alt="Idio">
+      </a>
+    </th>
+    <th>
+      <a href="https://www.technation.sucks" title="Tech Nation Visa">
+        <img src="https://raw.githubusercontent.com/artdecoweb/www.technation.sucks/master/anim.gif"
+          alt="Tech Nation Visa">
+      </a>
+    </th>
+    <th><a href="https://www.technation.sucks">Tech Nation Visa Sucks</a></th>
+  </tr>
+</table>
 
 <p align="center"><a href="#table-of-contents"><img src="/.documentary/section-breaks/-1.svg?sanitize=true"></a></p>

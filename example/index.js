@@ -1,9 +1,18 @@
-/* alanode example/ */
-import typeIs from '../src'
+import typeis from '../src'
 
-(async () => {
-  const res = await typeIs({
-    text: 'example',
-  })
-  console.log(res)
-})()
+const req = {
+  headers: {
+    'content-length': 10,
+    'content-type': 'application/json',
+  },
+}
+
+console.log(typeis(req, ['json'])) // => 'json'
+console.log(typeis(req, ['html', 'json'])) // => 'json'
+console.log(typeis(req, ['application/*'])) // => 'application/json'
+console.log(typeis(req, ['application/json'])) // => 'application/json'
+
+// pass types as variable arguments
+console.log(typeis(req, 'text/html', 'application/json')) // => 'application/json'
+
+console.log(typeis(req, ['html'])) // => false
