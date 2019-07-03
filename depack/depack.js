@@ -48,8 +48,7 @@ class y {
  Copyright(c) 2014-2015 Douglas Christopher Wilson
  https://npmjs.org/type-is
 */
-function A(a, d) {
-  var g = [];
+function A(a, d, ...g) {
   if ("string" != typeof a) {
     var f = null;
   } else {
@@ -153,7 +152,7 @@ function B(a) {
   }
   2 < arguments.length && (d = [d, ...g]);
   return A(a.headers["content-type"], d);
-}, _hasBody:C};
+}, _is:A, _hasBody:C};
 
 
 module.exports = DEPACK_EXPORT

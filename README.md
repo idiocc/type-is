@@ -12,8 +12,9 @@ yarn add @goa/type-is
 
 - [Table Of Contents](#table-of-contents)
 - [API](#api)
-- [`typeis(request: string|http.IncomingMessage|http.ServerResponse, types: string|Array<string>, ...types: string): string|boolean`](#typeisrequest-stringhttpincomingmessagehttpserverresponsetypes-stringarraystringtypes-string-stringboolean)
+- [`typeis(request: http.IncomingMessage, types: string|Array<string>, ...types: string): string|boolean`](#typeisrequest-httpincomingmessagetypes-stringarraystringtypes-string-stringboolean)
 - [`hasBody(request: http.IncomingMessage): boolean`](#hasbodyrequest-httpincomingmessage-boolean)
+- [`is(mediaType: string, types: string|Array<string>, ...types: string): string|boolean`](#ismediatype-stringtypes-stringarraystringtypes-string-stringboolean)
 - [Copyright](#copyright)
 
 <p align="center"><a href="#table-of-contents"><img src="/.documentary/section-breaks/0.svg?sanitize=true"></a></p>
@@ -28,7 +29,7 @@ import typeis, { hasBody } from '@goa/type-is'
 
 <p align="center"><a href="#table-of-contents"><img src="/.documentary/section-breaks/1.svg?sanitize=true"></a></p>
 
-## `typeis(`<br/>&nbsp;&nbsp;`request: string|http.IncomingMessage|http.ServerResponse,`<br/>&nbsp;&nbsp;`types: string|Array<string>,`<br/>&nbsp;&nbsp;`...types: string,`<br/>`): string|boolean`
+## `typeis(`<br/>&nbsp;&nbsp;`request: http.IncomingMessage,`<br/>&nbsp;&nbsp;`types: string|Array<string>,`<br/>&nbsp;&nbsp;`...types: string,`<br/>`): string|boolean`
 
 Checks if the `request` is one of the types. If the request has no body, even if there is a _Content-Type_ header, then `null` is returned. If the _Content-Type_ header is invalid or does not matches any of the `types`, then `false` is returned. Otherwise, a string of the type that matched is returned.
 
@@ -91,13 +92,6 @@ application/json
 </td></tr>
 </table>
 
-**Alias: `is`**
-
-```js
-import typeis, { is } from '../src'
-is === typeis // true
-```
-
 <p align="center"><a href="#table-of-contents"><img src="/.documentary/section-breaks/2.svg?sanitize=true"></a></p>
 
 
@@ -150,6 +144,57 @@ log(hasBody({ headers: {
 </table>
 
 <p align="center"><a href="#table-of-contents"><img src="/.documentary/section-breaks/3.svg?sanitize=true"></a></p>
+
+## `is(`<br/>&nbsp;&nbsp;`mediaType: string,`<br/>&nbsp;&nbsp;`types: string|Array<string>,`<br/>&nbsp;&nbsp;`...types: string,`<br/>`): string|boolean`
+
+Checks if the `mediaType` is one of the types. If the `mediaType` is invalid or does not matches any of the types, then false is returned. Otherwise, a string of the type that matched is returned.
+
+The mediaType argument is expected to be a [media type](https://tools.ietf.org/html/rfc6838) string. The types argument is an array of type strings.
+
+Each `type` in the types array follows the same rules as described in the `typeis` section.
+
+<table>
+<tr><th><a href="example/is.js">Source</a></th><th>Output</th></tr>
+<tr><td>
+
+```js
+import { is } from '@goa/type-is'
+
+const mediaType = 'application/json'
+
+log(is(mediaType, ['json']))
+log(is(mediaType, ['html', 'json']))
+log(is(mediaType, ['application/*']))
+log(is(mediaType, ['application/json']))
+
+// pass types as variable arguments
+log(is(mediaType, 'text/html', 'application/json'))
+
+log(is(mediaType, ['html']))
+```
+</td>
+<td>
+
+```js
+​
+​
+​
+​json
+json
+application/json
+application/json
+
+​
+​application/json
+
+​false
+```
+</td></tr>
+</table>
+
+
+<p align="center"><a href="#table-of-contents"><img src="/.documentary/section-breaks/4.svg?sanitize=true"></a></p>
+
 
 ## Copyright
 

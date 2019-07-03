@@ -1,6 +1,6 @@
 ```## typeis => string|boolean
 [
-  ["request", "string|http.IncomingMessage|http.ServerResponse"],
+  ["request", "http.IncomingMessage"],
   ["types", "string|Array<string>"],
   ["...types", "string"]
 ]
@@ -29,12 +29,5 @@ Each `type` in the types array can be one of the following:
 %FORK-js example%
 </td></tr>
 </table>
-
-**Alias: `is`**
-
-```js
-import typeis, { is } from '../src'
-is === typeis // true
-```
 
 %~%

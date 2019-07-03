@@ -1,4 +1,4 @@
-const { _typeis, _hasBody } = require('./depack')
+const { _typeis, _is, _hasBody } = require('./depack')
 
 /**
  * Compare a `value` content-type with `types`.
@@ -11,8 +11,8 @@ const { _typeis, _hasBody } = require('./depack')
  * @param {...string} args Acceptable types as arguments.
  * @return {string|boolean} If no types match, `false` is returned. Otherwise, the first `type` that matches is returned.
  */
-function typeis(value, types, ...args) {
-  return _typeis(value, types, ...args)
+function is(value, ...args) {
+  return _is(value, ...args)
 }
 
 /**
@@ -28,8 +28,38 @@ function hasBody(req) {
   return _hasBody(req)
 }
 
+/**
+ * Check if the incoming request contains the "Content-Type"
+ * header field, and it contains any of the give mime `type`s.
+ * If there is no request body, `null` is returned.
+ * If there is no content type, `false` is returned.
+ * Otherwise, it returns the first `type` that matches.
+ *
+ * Examples:
+ *
+ *     // With Content-Type: text/html; charset=utf-8
+ *     this.is('html'); // => 'html'
+ *     this.is('text/html'); // => 'text/html'
+ *     this.is('text/*', 'application/json'); // => 'text/html'
+ *
+ *     // When Content-Type is application/json
+ *     this.is('json', 'urlencoded'); // => 'json'
+ *     this.is('application/json'); // => 'application/json'
+ *     this.is('html', 'application/*'); // => 'application/json'
+ *
+ *     this.is('html'); // => false
+ *
+ * @param {http.IncomingMessage} req The server request.
+ * @param {string|!Array<string>} [types] Acceptable types as an array.
+ * @param {...string} args Acceptable types as arguments.
+ * @returns {?string|false}
+ */
+function typeis(req, types, ...args) {
+  return _typeis(req, types, ...args)
+}
+
 module.exports = typeis
-module.exports.is = typeis
+module.exports.is = is
 module.exports.hasBody = hasBody
 
 /**
