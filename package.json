@@ -1,6 +1,6 @@
 {
   "name": "@goa/type-is",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "[fork] Infer the content-type of a request Written In ES6 And Optimised With JavaScript Compiler.",
   "main": "depack/index.js",
   "module": "src/index.js",
