@@ -2,7 +2,7 @@
 
 [![npm version](https://badge.fury.io/js/%40goa%2Ftype-is.svg)](https://npmjs.org/package/@goa/type-is)
 
-`@goa/type-is` is [fork] Infer the content-type of a request Written In ES6 And Optimised With JavaScript Compiler.
+`@goa/type-is` is a fork of [Infer the content-type of a request](https://github.com/jshttp/type-is) Written In ES6 And Optimised With [JavaScript Compiler](https://compiler.page).
 
 ```sh
 yarn add @goa/type-is
