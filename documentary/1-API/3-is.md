@@ -1,4 +1,4 @@
-```## is => string|boolean
+```## is => ?string|boolean
 [
   ["mediaType", "string"],
   ["types", "string|Array<string>"],

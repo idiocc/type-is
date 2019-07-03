@@ -1,4 +1,4 @@
-```## typeis => string|boolean
+```## typeis => ?string|boolean
 [
   ["request", "http.IncomingMessage"],
   ["types", "string|Array<string>"],

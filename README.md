@@ -12,9 +12,9 @@ yarn add @goa/type-is
 
 - [Table Of Contents](#table-of-contents)
 - [API](#api)
-- [`typeis(request: http.IncomingMessage, types: string|Array<string>, ...types: string): string|boolean`](#typeisrequest-httpincomingmessagetypes-stringarraystringtypes-string-stringboolean)
+- [`typeis(request: http.IncomingMessage, types: string|Array<string>, ...types: string): ?string|boolean`](#typeisrequest-httpincomingmessagetypes-stringarraystringtypes-string-stringboolean)
 - [`hasBody(request: http.IncomingMessage): boolean`](#hasbodyrequest-httpincomingmessage-boolean)
-- [`is(mediaType: string, types: string|Array<string>, ...types: string): string|boolean`](#ismediatype-stringtypes-stringarraystringtypes-string-stringboolean)
+- [`is(mediaType: string, types: string|Array<string>, ...types: string): ?string|boolean`](#ismediatype-stringtypes-stringarraystringtypes-string-stringboolean)
 - [Copyright](#copyright)
 
 <p align="center"><a href="#table-of-contents"><img src="/.documentary/section-breaks/0.svg?sanitize=true"></a></p>
@@ -29,7 +29,7 @@ import typeis, { hasBody } from '@goa/type-is'
 
 <p align="center"><a href="#table-of-contents"><img src="/.documentary/section-breaks/1.svg?sanitize=true"></a></p>
 
-## `typeis(`<br/>&nbsp;&nbsp;`request: http.IncomingMessage,`<br/>&nbsp;&nbsp;`types: string|Array<string>,`<br/>&nbsp;&nbsp;`...types: string,`<br/>`): string|boolean`
+## `typeis(`<br/>&nbsp;&nbsp;`request: http.IncomingMessage,`<br/>&nbsp;&nbsp;`types: string|Array<string>,`<br/>&nbsp;&nbsp;`...types: string,`<br/>`): ?string|boolean`
 
 Checks if the `request` is one of the types. If the request has no body, even if there is a _Content-Type_ header, then `null` is returned. If the _Content-Type_ header is invalid or does not matches any of the `types`, then `false` is returned. Otherwise, a string of the type that matched is returned.
 
@@ -94,7 +94,6 @@ application/json
 
 <p align="center"><a href="#table-of-contents"><img src="/.documentary/section-breaks/2.svg?sanitize=true"></a></p>
 
-
 ## `hasBody(`<br/>&nbsp;&nbsp;`request: http.IncomingMessage,`<br/>`): boolean`
 
 Returns a _Boolean_ if the given `request` has a body, regardless of the _Content-Type_ header.
@@ -145,7 +144,7 @@ log(hasBody({ headers: {
 
 <p align="center"><a href="#table-of-contents"><img src="/.documentary/section-breaks/3.svg?sanitize=true"></a></p>
 
-## `is(`<br/>&nbsp;&nbsp;`mediaType: string,`<br/>&nbsp;&nbsp;`types: string|Array<string>,`<br/>&nbsp;&nbsp;`...types: string,`<br/>`): string|boolean`
+## `is(`<br/>&nbsp;&nbsp;`mediaType: string,`<br/>&nbsp;&nbsp;`types: string|Array<string>,`<br/>&nbsp;&nbsp;`...types: string,`<br/>`): ?string|boolean`
 
 Checks if the `mediaType` is one of the types. If the `mediaType` is invalid or does not matches any of the types, then false is returned. Otherwise, a string of the type that matched is returned.
 
@@ -179,6 +178,7 @@ log(is(mediaType, ['html']))
 ​
 ​
 ​
+​
 ​json
 json
 application/json
@@ -194,7 +194,6 @@ application/json
 
 
 <p align="center"><a href="#table-of-contents"><img src="/.documentary/section-breaks/4.svg?sanitize=true"></a></p>
-
 
 ## Copyright
 

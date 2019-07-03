@@ -1,4 +1,4 @@
-const ns = [4, 0, 0, 0, 2, 1]
+const ns = [5, 0, 0, 0, 2, 1]
 
 /* start example */
 import { is } from '../src'
