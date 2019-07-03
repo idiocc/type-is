@@ -12,6 +12,7 @@ yarn add @goa/type-is
 
 - [Table Of Contents](#table-of-contents)
 - [API](#api)
+- [`hasBody(request: http.IncomingMessage, types: string|Array<string>, ...types: string)`](#hasbodyrequest-httpincomingmessagetypes-stringarraystringtypes-string-void)
 - [`typeis(request: http.IncomingMessage, types: string|Array<string>, ...types: string)`](#typeisrequest-httpincomingmessagetypes-stringarraystringtypes-string-void)
 - [Copyright](#copyright)
 
@@ -27,6 +28,36 @@ import typeis, { hasBody, match } from '@goa/type-is'
 
 <p align="center"><a href="#table-of-contents"><img src="/.documentary/section-breaks/1.svg?sanitize=true"></a></p>
 
+## `hasBody(`<br/>&nbsp;&nbsp;`request: http.IncomingMessage,`<br/>&nbsp;&nbsp;`types: string|Array<string>,`<br/>&nbsp;&nbsp;`...types: string,`<br/>`): void`
+
+Returns a _Boolean_ if the given `request` has a body, regardless of the _Content-Type_ header.
+
+Having a body has no relation to how large the body is (it may be 0 bytes). This is similar to how file existence works. If a body does exist, then this indicates that there is data to read from the Node.js request stream.
+
+```js
+import { hasBody } from '@goa/type-is'
+
+console.log(hasBody({ headers: {
+  'content-length': 10,
+  'content-type': 'application/json' },
+}))
+
+console.log(hasBody({ headers: {
+  'transfer-encoding': 'utf-8' },
+}))
+
+console.log(hasBody({ headers: {
+  'content-type': 'application/json' },
+}))
+```
+```
+true
+true
+false
+```
+
+<p align="center"><a href="#table-of-contents"><img src="/.documentary/section-breaks/2.svg?sanitize=true"></a></p>
+
 ## `typeis(`<br/>&nbsp;&nbsp;`request: http.IncomingMessage,`<br/>&nbsp;&nbsp;`types: string|Array<string>,`<br/>&nbsp;&nbsp;`...types: string,`<br/>`): void`
 
 Checks if the `request` is one of the types. If the request has no body, even if there is a _Content-Type_ header, then `null` is returned. If the _Content-Type_ header is invalid or does not matches any of the `types`, then `false` is returned. Otherwise, a string of the type that matched is returned.
@@ -40,6 +71,11 @@ Each `type` in the types array can be one of the following:
 - A mime type with a wildcard such as `*/*` or `*/json` or `application/*`. The full mime type will be returned if matched.
 - A suffix such as `+json`. This can be combined with a wildcard such as `*/vnd+json` or `application/*+json`. The full mime type will be returned if matched.
 
+> Alias: `is`
+    ```js
+    import typeis, { is } from '../src'
+    is === typeis // true
+    ```
 
 ```js
 import typeis from '@goa/type-is'
@@ -70,7 +106,7 @@ application/json
 false
 ```
 
-<p align="center"><a href="#table-of-contents"><img src="/.documentary/section-breaks/2.svg?sanitize=true"></a></p>
+<p align="center"><a href="#table-of-contents"><img src="/.documentary/section-breaks/3.svg?sanitize=true"></a></p>
 
 ## Copyright
 
