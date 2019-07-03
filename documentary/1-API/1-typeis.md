@@ -1,6 +1,6 @@
-```## typeis
+```## typeis => string|boolean
 [
-  ["request", "http.IncomingMessage"],
+  ["request", "string|http.IncomingMessage|http.ServerResponse"],
   ["types", "string|Array<string>"],
   ["...types", "string"]
 ]
@@ -17,15 +17,24 @@ Each `type` in the types array can be one of the following:
 - A mime type with a wildcard such as `*/*` or `*/json` or `application/*`. The full mime type will be returned if matched.
 - A suffix such as `+json`. This can be combined with a wildcard such as `*/vnd+json` or `application/*+json`. The full mime type will be returned if matched.
 
-> Alias: `is`
-    ```js
-    import typeis, { is } from '../src'
-    is === typeis // true
-    ```
-
-<!-- %TYPEDEF types/index.xml% -->
+<table>
+<!-- block-start -->
+<tr><th><a href="example/index.js">Source</a></th><th>Output</th></tr>
+<tr><td>
 
 %EXAMPLE: example, ../src => @goa/type-is%
-%FORK example%
+</td>
+<td>
+
+%FORK-js example%
+</td></tr>
+</table>
+
+**Alias: `is`**
+
+```js
+import typeis, { is } from '../src'
+is === typeis // true
+```
 
 %~%

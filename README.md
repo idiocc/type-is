@@ -12,23 +12,23 @@ yarn add @goa/type-is
 
 - [Table Of Contents](#table-of-contents)
 - [API](#api)
-- [`typeis(request: http.IncomingMessage, types: string|Array<string>, ...types: string)`](#typeisrequest-httpincomingmessagetypes-stringarraystringtypes-string-void)
-- [`hasBody(request: http.IncomingMessage, types: string|Array<string>, ...types: string)`](#hasbodyrequest-httpincomingmessagetypes-stringarraystringtypes-string-void)
+- [`typeis(request: string|http.IncomingMessage|http.ServerResponse, types: string|Array<string>, ...types: string): string|boolean`](#typeisrequest-stringhttpincomingmessagehttpserverresponsetypes-stringarraystringtypes-string-stringboolean)
+- [`hasBody(request: http.IncomingMessage): boolean`](#hasbodyrequest-httpincomingmessage-boolean)
 - [Copyright](#copyright)
 
 <p align="center"><a href="#table-of-contents"><img src="/.documentary/section-breaks/0.svg?sanitize=true"></a></p>
 
 ## API
 
-The package is available by importing its default function:
+The package is available by importing its default and named functions:
 
 ```js
-import typeis, { hasBody, match } from '@goa/type-is'
+import typeis, { hasBody } from '@goa/type-is'
 ```
 
 <p align="center"><a href="#table-of-contents"><img src="/.documentary/section-breaks/1.svg?sanitize=true"></a></p>
 
-## `typeis(`<br/>&nbsp;&nbsp;`request: http.IncomingMessage,`<br/>&nbsp;&nbsp;`types: string|Array<string>,`<br/>&nbsp;&nbsp;`...types: string,`<br/>`): void`
+## `typeis(`<br/>&nbsp;&nbsp;`request: string|http.IncomingMessage|http.ServerResponse,`<br/>&nbsp;&nbsp;`types: string|Array<string>,`<br/>&nbsp;&nbsp;`...types: string,`<br/>`): string|boolean`
 
 Checks if the `request` is one of the types. If the request has no body, even if there is a _Content-Type_ header, then `null` is returned. If the _Content-Type_ header is invalid or does not matches any of the `types`, then `false` is returned. Otherwise, a string of the type that matched is returned.
 
@@ -41,11 +41,9 @@ Each `type` in the types array can be one of the following:
 - A mime type with a wildcard such as `*/*` or `*/json` or `application/*`. The full mime type will be returned if matched.
 - A suffix such as `+json`. This can be combined with a wildcard such as `*/vnd+json` or `application/*+json`. The full mime type will be returned if matched.
 
-> Alias: `is`
-    ```js
-    import typeis, { is } from '../src'
-    is === typeis // true
-    ```
+<table>
+<tr><th><a href="example/index.js">Source</a></th><th>Output</th></tr>
+<tr><td>
 
 ```js
 import typeis from '@goa/type-is'
@@ -57,54 +55,99 @@ const req = {
   },
 }
 
-console.log(typeis(req, ['json'])) // => 'json'
-console.log(typeis(req, ['html', 'json'])) // => 'json'
-console.log(typeis(req, ['application/*'])) // => 'application/json'
-console.log(typeis(req, ['application/json'])) // => 'application/json'
+log(typeis(req, ['json']))
+log(typeis(req, ['html', 'json']))
+log(typeis(req, ['application/*']))
+log(typeis(req, ['application/json']))
 
 // pass types as variable arguments
-console.log(typeis(req, 'text/html', 'application/json')) // => 'application/json'
+log(typeis(req, 'text/html', 'application/json'))
 
-console.log(typeis(req, ['html'])) // => false
+log(typeis(req, ['html']))
 ```
+</td>
+<td>
+
+```js
+​
+​
+​
+​
+​
+​
+​
+​
+​
+​json
+json
+application/json
+application/json
+
+​
+​application/json
+
+​false
 ```
-json
-json
-application/json
-application/json
-application/json
-false
+</td></tr>
+</table>
+
+**Alias: `is`**
+
+```js
+import typeis, { is } from '../src'
+is === typeis // true
 ```
 
 <p align="center"><a href="#table-of-contents"><img src="/.documentary/section-breaks/2.svg?sanitize=true"></a></p>
 
-## `hasBody(`<br/>&nbsp;&nbsp;`request: http.IncomingMessage,`<br/>&nbsp;&nbsp;`types: string|Array<string>,`<br/>&nbsp;&nbsp;`...types: string,`<br/>`): void`
+
+## `hasBody(`<br/>&nbsp;&nbsp;`request: http.IncomingMessage,`<br/>`): boolean`
 
 Returns a _Boolean_ if the given `request` has a body, regardless of the _Content-Type_ header.
 
 Having a body has no relation to how large the body is (it may be 0 bytes). This is similar to how file existence works. If a body does exist, then this indicates that there is data to read from the Node.js request stream.
 
+<table>
+<tr><th><a href="example/has-body.js">Source</a></th><th>Output</th></tr>
+<tr><td>
+
 ```js
 import { hasBody } from '@goa/type-is'
 
-console.log(hasBody({ headers: {
+log(hasBody({ headers: {
   'content-length': 10,
   'content-type': 'application/json' },
 }))
 
-console.log(hasBody({ headers: {
+log(hasBody({ headers: {
   'transfer-encoding': 'utf-8' },
 }))
 
-console.log(hasBody({ headers: {
+log(hasBody({ headers: {
   'content-type': 'application/json' },
 }))
 ```
+</td>
+<td>
+
+```js
+​
+​
+​
+​
+​
+​true
+
+​
+​
+​true
+
+​
+​
+​false
 ```
-true
-true
-false
-```
+</td></tr>
+</table>
 
 <p align="center"><a href="#table-of-contents"><img src="/.documentary/section-breaks/3.svg?sanitize=true"></a></p>
 

@@ -1,9 +1,9 @@
 ## API
 
-The package is available by importing its default function:
+The package is available by importing its default and named functions:
 
 ```js
-import typeis, { hasBody, match } from '@goa/type-is'
+import typeis, { hasBody } from '@goa/type-is'
 ```
 
 %~%
