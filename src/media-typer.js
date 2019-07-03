@@ -116,6 +116,6 @@ class MediaType {
 }
 
 /**
- * @licence MIT media-typer
+ * @license MIT media-typer
  * 2014-2017 Douglas Christopher Wilson
  */
